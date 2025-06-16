@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Prompt Token Counter
+        </title>
+    </head>
+    <body>
+        <h1>hello</h1>
+        <p>welcome to the webpage</p>
+
+        <!--button functionality--->
+        <input type = "text" id = "promptInput" placeholder = "Type your prompt here..." color = "gray">
+        <button onclick="submitPrompt()">Submit</button>
+        <p id = "result"></p>
+        <script>
+            function submitPrompt(){
+                const prompt = document.getElementById("promptInput").value;
+                // grab user input, send it to flask
+                fetch('/count',{
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({prompt:prompt})
+                })
+                // get flask response and turn into usable data
+                .then(response => response.json())
+                .them(data => {document.getElementById("result").textContent = 'Estimated token count: ${data.countTokens};'})
+
+            }
+        </script>
+    </body>
+</html>
